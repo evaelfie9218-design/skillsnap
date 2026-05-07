@@ -1,0 +1,109 @@
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserProfilePublic = 
+ record {
+   createdAt: Timestamp;
+   credits: nat;
+   creditsEarned: nat;
+   languages: vec text;
+   name: text;
+   rating: float64;
+   skillCount: nat;
+   userId: UserId;
+ };
+type UserId = principal;
+type Timestamp = int;
+type SkillWithMeta = 
+ record {
+   audioUrl: text;
+   category: text;
+   createdAt: Timestamp;
+   creatorName: text;
+   durationSeconds: nat;
+   isUnlocked: bool;
+   rating: float64;
+   skillId: SkillId;
+   tags: vec text;
+   title: text;
+   userId: UserId;
+ };
+type SkillId = text;
+type SkillFilter = 
+ record {
+   category: opt text;
+   search: opt text;
+   tag: opt text;
+ };
+type Result_1 = 
+ variant {
+   err: text;
+   ok: SkillId;
+ };
+type Result = 
+ variant {
+   err: text;
+   ok;
+ };
+type LeaderboardSort = 
+ variant {
+   creditsEarned;
+   rating;
+   skillCount;
+ };
+type LeaderboardEntry = 
+ record {
+   avgRating: float64;
+   creditsEarned: nat;
+   name: text;
+   skillCount: nat;
+   userId: UserId;
+ };
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initializeAccessControl: () -> ();
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  createSkill: (title: text, audioUrl: text, category: text, tags:
+   vec text) -> (Result_1);
+  getCallerUserProfile: () -> (opt UserProfilePublic) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getLeaderboard: (sortBy: LeaderboardSort, limit: nat) ->
+   (vec LeaderboardEntry) query;
+  getMyCredits: () -> (nat) query;
+  getMyProfile: () -> (opt UserProfilePublic);
+  getMySkills: () -> (vec SkillWithMeta) query;
+  getSkill: (skillId: SkillId) -> (opt SkillWithMeta) query;
+  getSkillRating: (skillId: SkillId) -> (float64) query;
+  getUserProfile: (userId: UserId) -> (opt UserProfilePublic) query;
+  isCallerAdmin: () -> (bool) query;
+  isUnlocked: (skillId: SkillId) -> (bool) query;
+  listSkills: (filter: SkillFilter) -> (vec SkillWithMeta) query;
+  rateSkill: (skillId: SkillId, rating: nat) -> (Result);
+  saveCallerUserProfile: (name: text) -> ();
+  saveMyProfile: (name: text, languages: vec text) -> ();
+  unlockSkill: (skillId: SkillId) -> (Result);
+}

@@ -1,0 +1,22 @@
+{
+  "overview": "SkillSnap is a 10-second audio skill marketplace where users record and share bite-sized audio tips, browse skills by category and tags, spend credits to unlock them, rate what they learn, and compete on a leaderboard of top contributors.",
+  "features": [
+    "Record or upload 10-second audio skill clips",
+    "Browse and filter skills by category and tags",
+    "Credit-based unlock system (30 free credits on signup)",
+    "5-star rating system with real-time creator score updates",
+    "Leaderboard of top contributors by rating",
+    "My Skills page to manage published content",
+    "Internet Identity sign-in with user profile"
+  ],
+  "category": "marketplace",
+  "tags": [
+    "audio",
+    "marketplace",
+    "skills",
+    "credits",
+    "leaderboard",
+    "community"
+  ],
+  "last_updated": "2026-05-07T02:33:10.420Z"
+}

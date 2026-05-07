@@ -1,0 +1,82 @@
+// Version: 1.0.0
+type Data__159895909<T> = {var count : Nat__490723111; elements : [var ?T]};
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type Internal__667636161<T> =
+  {children : [var ?Node__92254746<T>]; data : Data__159895909<T>};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__520550824<T> = {data : Data__159895909<T>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type Node__92254746<T> =
+  {#internal : Internal__667636161<T>; #leaf : Leaf__520550824<T>};
+type Set__532252804<T> = Set__710576254<T>;
+type Set__710576254<T> =
+  {var root : Node__92254746<T>; var size : Nat__490723111};
+type SkillId__233245169 = SkillId__405375433;
+type SkillId__405375433 = Text;
+type Skill__397562647 =
+  {
+    audioUrl : Text;
+    category : Text;
+    createdAt : Timestamp__301639476;
+    durationSeconds : Nat;
+    var rating : Float;
+    var ratingCount : Nat;
+    var ratingSum : Nat;
+    skillId : SkillId__233245169;
+    tags : [Text];
+    title : Text;
+    userId : UserId__1042049040
+  };
+type Timestamp__301639476 = Int;
+type UserId__1042049040 = UserId__158757552;
+type UserId__158757552 = Principal;
+type UserId__315772724 = UserId__158757552;
+type UserProfile__1009003526 =
+  {
+    createdAt : Timestamp__301639476;
+    var credits : Nat;
+    var creditsEarned : Nat;
+    languages : [Text];
+    name : Text;
+    var rating : Float;
+    var ratingCount : Nat;
+    var skillCount : Nat;
+    userId : UserId__315772724
+  };
+type UserRole__1073662873 = {#admin; #guest; #user};
+actor {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1073662873>
+    };
+  stable var nextSkillId : Nat;
+  stable profiles :
+    {
+      var root : Node__46230540<UserId__158757552, UserProfile__1009003526>;
+      var size : Nat__490723111
+    };
+  stable ratings :
+    {var root : Node__46230540<Text, Nat>; var size : Nat__490723111};
+  stable skills :
+    {
+      var root : Node__46230540<SkillId__405375433, Skill__397562647>;
+      var size : Nat__490723111
+    };
+  stable unlocks :
+    {
+      var root :
+        Node__46230540<UserId__158757552, Set__532252804<SkillId__405375433>>;
+      var size : Nat__490723111
+    }
+};
